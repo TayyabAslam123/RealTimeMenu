@@ -16,7 +16,8 @@ Route::get('/', function () {
 });
 
 
-Route::get('/send-notification',"FcmController@pushNotification");
+//Route::get('/send-notification',"FcmController@pushNotification");
 //testing	
 Route::get('/fcm',"FcmController@index");
 Route::get('/send-notification',"FcmController@sendNotification");
+Route::post('/set-session',"FcmController@setSession")->name('set');

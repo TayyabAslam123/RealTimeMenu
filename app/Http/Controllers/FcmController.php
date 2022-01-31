@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 class FcmController extends Controller
 {
@@ -44,12 +45,15 @@ class FcmController extends Controller
     }
 
     public function index(){
+        // $token = Session::get('code');
+        // dd($token);
         return view('firebase');   
       }
   
       public function sendNotification(Request $request){
-          $token = "cL6yILTszdU:APA91bEVzgTdj8HM9DhIhsLZ97y08nS32JwU7Svz-Xt9V2wFH_XXlftdqA1BP-j3itbkNCN1pVym-i_yvwW1pAA2Tn09ywSiwnmofl90GYiF0My01Bykvh-cfCjwFeQDwsKy9fSiSWS0";  
-          $from = "AAAA3-sdkJs:APA91bHqPru5zBCSLgnxUKO1jwpoSojrqTQT5xN-1VmGnkM4VqBYhLZRul32QCaTUsNSeHhK99Lrg0BjMYjjzFwf0PJOJHX2qpUg8cThgQd--nqAwTiEYtdasQEUKCXRlXapzuXzkQWJ";
+        //   $token = "cL6yILTszdU:APA91bEVzgTdj8HM9DhIhsLZ97y08nS32JwU7Svz-Xt9V2wFH_XXlftdqA1BP-j3itbkNCN1pVym-i_yvwW1pAA2Tn09ywSiwnmofl90GYiF0My01Bykvh-cfCjwFeQDwsKy9fSiSWS0";  
+        $token = Session::get('token');
+        $from = "AAAA3-sdkJs:APA91bHqPru5zBCSLgnxUKO1jwpoSojrqTQT5xN-1VmGnkM4VqBYhLZRul32QCaTUsNSeHhK99Lrg0BjMYjjzFwf0PJOJHX2qpUg8cThgQd--nqAwTiEYtdasQEUKCXRlXapzuXzkQWJ";
           $msg = array
                 (
                   'body'  => "New Notification",
@@ -82,5 +86,9 @@ class FcmController extends Controller
           dd($result);
       }  
 
+      public function setSession(Request $request){
+        
+          Session::put('code', $request->code);
+      }
 
 }

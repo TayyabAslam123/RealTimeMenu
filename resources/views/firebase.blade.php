@@ -1,5 +1,14 @@
 <html>
 <head>
+<!--BOOTSTRAP-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--END BOOTSTRAP-->
 <title>FCM</title>
 <!-- firebase integration started -->
 <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
@@ -20,7 +29,11 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
-Firebase Notification
+<div class="jumbotron text-center">
+  <h1>Receive Food Order</h1>
+  <p>(Firebase Realtime Notification)</p> 
+</div>
+  
 </body>
 <script>
 // Your web app's Firebase configuration
@@ -42,13 +55,25 @@ const messaging = firebase.messaging();
 .then(function () {
 //MsgElem.innerHTML = "Notification permission granted." 
 	console.log("Notification permission granted.");
-
      // get the token in the form of promise
 	return messaging.getToken()
 })
 .then(function(token) {
  // print the token on the HTML page     
   console.log(token); 
+$.ajax({
+    type: "POST",
+    url: "{{ route('set') }}",
+    data: {_token: "{{csrf_token()}}", code:token},
+    success: function (response) {
+    console.log(response);
+    },
+    error: function (errors) {
+    console.log(errors)
+    }
+});
+
+
 })
 .catch(function (err) {
 	console.log("Unable to get permission to notify.", err);
